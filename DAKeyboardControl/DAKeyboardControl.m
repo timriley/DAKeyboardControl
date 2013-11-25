@@ -427,7 +427,11 @@ static char UIViewIsPanning;
     if (inputView != nil) {
         // Re assign the focus
         [inputView resignFirstResponder];
-        [inputView becomeFirstResponder];
+
+        // FIX: Run this async to ensure it works on iOS 7
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [inputView becomeFirstResponder];
+        });
     }
 }
 
